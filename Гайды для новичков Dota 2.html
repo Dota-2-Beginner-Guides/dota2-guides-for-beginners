@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dota Guide — гайд для новичков</title>
+
+<style>
+:root {
+  --bg: #111315;
+  --panel: #1a1d20;
+  --panel-light: #22262a;
+  --border: #34393e;
+  --text: #f1f1ed;
+  --muted: #a8acae;
+  --red: #c74438;
+  --red-light: #ee6b5d;
+  --gold: #d5a95e;
+  --green: #45bd71;
+  --green-bg: #173b27;
+  --wrong-bg: #482320;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at top, rgba(129, 37, 30, 0.18), transparent 45%),
+    var(--bg);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(17, 19, 21, 0.96);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+}
+
+.topbar-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  background: var(--red);
+  color: white;
+  font-weight: 900;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.nav button {
+  padding: 8px 10px;
+  color: var(--muted);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+}
+
+.nav button:hover,
+.nav button.active {
+  color: white;
+  border-color: var(--border);
+  background: var(--panel-light);
+}
+
+.hero-banner {
+  max-width: 1180px;
+  min-height: 270px;
+  margin: 26px auto 0;
+  padding: 40px 32px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #59302b;
+  border-radius: 12px;
+  background:
+    linear-gradient(90deg, rgba(12, 13, 14, 0.97), rgba(19, 18, 18, 0.78)),
+    repeating-linear-gradient(135deg, #301d1a 0 2px, #191718 2px 10px);
+}
+
+.hero-content { max-width: 720px; }
+
+.eyebrow {
+  color: var(--red-light);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 12px 0;
+  font-size: clamp(34px, 6vw, 60px);
+  line-height: 1.05;
+}
+
+.hero-banner p {
+  max-width: 640px;
+  color: #c4c5c3;
+  font-size: 17px;
+}
+
+main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 22px 60px;
+}
+
+.page-section { margin-top: 16px; }
+
+.section-heading { margin: 20px 0; }
+
+.section-heading h2 {
+  margin: 0 0 6px;
+  font-size: 28px;
+}
+
+.section-heading p { margin: 0; color: var(--muted); }
+
+.toolbar {
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.search-wrap { flex: 1 1 260px; }
+
+.search-wrap input,
+.toolbar select,
+.dictionary-search {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 13px;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  outline: none;
+  background: var(--panel);
+}
+
+.toolbar select { flex: 0 1 210px; }
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.card {
+  min-height: 205px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: linear-gradient(145deg, var(--panel-light), var(--panel));
+  transition: 0.2s;
+}
+
+.card:hover {
+  border-color: #7d3932;
+  transform: translateY(-3px);
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 10px;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  display: grid;
+  place-items: center;
+  object-fit: cover;
+  overflow: hidden;
+  border: 1px solid #63403b;
+  border-radius: 7px;
+  background: #302321;
+  font-size: 24px;
+}
+
+.card h3 { margin: 0; font-size: 18px; }
+.subtitle { color: var(--muted); font-size: 13px; }
+
+.card p {
+  margin: 4px 0 14px;
+  color: #c2c5c5;
+  font-size: 14px;
+}
+
+.tags {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  padding: 4px 8px;
+  color: #d2d2cc;
+  border: 1px solid #42474a;
+  border-radius: 20px;
+  background: #25292c;
+  font-size: 11px;
+}
+
+.card-button {
+  margin-top: 14px;
+  padding: 9px 12px;
+  color: #f0b3ad;
+  border: 1px solid #61342f;
+  border-radius: 5px;
+  background: #2a1d1b;
+  text-align: left;
+}
+
+.card-button:hover { color: white; background: #472521; }
+
+.empty-message {
+  grid-column: 1 / -1;
+  padding: 28px;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.info-grid,
+.lesson-grid,
+.dictionary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+  margin-top: 18px;
+}
+
+.info-box,
+.lesson-card,
+.dictionary-card,
+.game-panel {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.info-box h3,
+.lesson-card h3,
+.dictionary-card h3 {
+  margin-top: 0;
+  color: var(--gold);
+}
+
+.info-box p,
+.info-box li,
+.lesson-card p,
+.dictionary-card p { color: #c4c7c7; }
+
+.info-box ul { padding-left: 21px; }
+
+.notice {
+  margin-top: 20px;
+  padding: 14px 16px;
+  color: #d8c99d;
+  border-left: 3px solid var(--gold);
+  background: rgba(213, 169, 94, 0.08);
+}
+
+.lesson-card video {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 6px;
+  background: #000;
+}
+
+.dictionary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.dictionary-card h3 { margin-bottom: 8px; }
+.dictionary-card p { margin: 0; }
+
+.detail-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: none;
+  place-items: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.76);
+}
+
+.detail-panel.open { display: grid; }
+
+.detail-box {
+  width: min(620px, 100%);
+  max-height: 85vh;
+  overflow: auto;
+  padding: 24px;
+  border: 1px solid #6b3932;
+  border-radius: 10px;
+  background: #1b1e21;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.5);
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.detail-header h2 { margin: 0; }
+
+.close-button {
+  width: 36px;
+  height: 36px;
+  color: white;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--panel-light);
+  font-size: 20px;
+}
+
+.detail-box p { color: #c7c9c8; }
+
+/* Викторина */
+.quiz-box {
+  max-width: 760px;
+  margin: 20px auto;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--panel);
+}
+
+.quiz-progress { margin-bottom: 12px; color: var(--gold); font-weight: 700; }
+.quiz-question { margin: 0 0 20px; font-size: 22px; }
+.quiz-answers { display: grid; gap: 10px; }
+
+.quiz-answer {
+  width: 100%;
+  padding: 12px 14px;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel-light);
+  text-align: left;
+}
+
+.quiz-answer:disabled { cursor: default; }
+.quiz-answer.correct { border-color: var(--green); background: var(--green-bg); }
+.quiz-answer.incorrect { border-color: #e45a4f; background: var(--wrong-bg); }
+.quiz-feedback { min-height: 28px; margin: 15px 0 5px; font-weight: 700; }
+.quiz-feedback.good { color: #66d88c; }
+.quiz-feedback.bad { color: #ff8279; }
+
+.quiz-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.quiz-score { color: var(--muted); }
+.quiz-finish { text-align: center; }
+.quiz-finish h3 { color: var(--gold); font-size: 26px; }
+
+/* Мини-игра */
+.game-panel { max-width: 850px; margin: 18px auto; }
+
+.game-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.gold-count {
+  color: var(--gold);
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.shop-card {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-light);
+}
+
+.shop-card h3 { margin: 4px 0; font-size: 16px; }
+.shop-card p { margin: 4px 0 10px; color: var(--muted); font-size: 13px; }
+.shop-icon { font-size: 28px; }
+
+.game-button,
+.inventory-button {
+  padding: 9px 12px;
+  color: white;
+  border: 1px solid #61342f;
+  border-radius: 5px;
+  background: #39211e;
+}
+
+.game-button:hover,
+.inventory-button:hover { background: #59302b; }
+
+.game-button:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.inventory-list {
+  display: grid;
+  gap: 9px;
+  margin: 12px 0;
+}
+
+.inventory-button {
+  width: 100%;
+  border-color: var(--border);
+  background: var(--panel-light);
+  text-align: left;
+}
+
+.inventory-button.selected {
+  border-color: var(--gold);
+  background: #39301f;
+}
+
+.upgrade-area {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+
+.upgrade-chance {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.wheel-wrap {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  margin: 18px auto;
+}
+
+.upgrade-wheel {
+  width: 220px;
+  height: 220px;
+  display: grid;
+  place-items: center;
+  border: 5px solid #d5a95e;
+  border-radius: 50%;
+  background: conic-gradient(#45bd71 0deg 180deg, #a83b34 180deg 360deg);
+  box-shadow: 0 0 22px rgba(0, 0, 0, 0.5);
+  transition: transform 4s cubic-bezier(.12, .75, .15, 1);
+}
+
+.wheel-center {
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  border: 3px solid #d5a95e;
+  border-radius: 50%;
+  background: #1a1d20;
+  font-weight: 800;
+}
+
+.wheel-pointer {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-top: 26px solid #f1f1ed;
+}
+
+.wheel-legend {
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
+}
+
+.inventory-row {
+  display: flex;
+  gap: 8px;
+}
+
+.inventory-row .inventory-button {
+  flex: 1;
+}
+
+.sell-button {
+  padding: 8px 10px;
+  color: #ffd3a1;
+  border: 1px solid #775331;
+  border-radius: 5px;
+  background: #382b20;
+}
+
+.sell-button:hover {
+  background: #59402a;
+}
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.roll-box {
+  min-height: 30px;
+  margin: 12px 0;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.game-message {
+  min-height: 28px;
+  margin-top: 10px;
+  font-weight: 700;
+}
+
+.game-message.good { color: #66d88c; }
+.game-message.bad { color: #ff8279; }
+
+.reset-game {
+  margin-top: 14px;
+  padding: 8px 12px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: transparent;
+}
+
+.hidden { display: none !important; }
+
+.footer {
+  padding: 24px 20px;
+  color: #969b9d;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 13px;
+}
+
+@media (max-width: 800px) {
+  .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .topbar-inner { align-items: flex-start; flex-direction: column; }
+  .dictionary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .hero-banner { min-height: 240px; margin: 14px 12px 0; padding: 28px 20px; }
+  main { padding: 18px 14px 42px; }
+  .cards-grid, .info-grid, .lesson-grid, .dictionary-grid, .shop-grid {
+    grid-template-columns: 1fr;
+  }
+  .nav { width: 100%; }
+  .nav button { padding: 7px 8px; }
+  .quiz-box, .game-panel { padding: 17px; }
+}
+</style>
+</head>
+
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#" aria-label="На главную">
+      <span class="brand-mark">D</span>
+      <span>DOTA GUIDE</span>
+    </a>
+
+    <nav class="nav" aria-label="Основное меню">
+      <button class="active" data-page="heroes">Герои</button>
+      <button data-page="items">Предметы</button>
+      <button data-page="basics">Об игре</button>
+      <button data-page="tips">Уроки</button>
+      <button data-page="dictionary">Словарь</button>
+      <button data-page="quiz">Викторина</button>
+      <button data-page="game">Апгрейдер</button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero-banner">
+  <div class="hero-content">
+    <div class="eyebrow">Путеводитель для новичков</div>
+    <h1>Твой первый шаг<br>в Dota 2</h1>
+    <p>
+      Изучай героев и предметы, проходи викторину и пробуй мини-игру
+      с игровым золотом.
+    </p>
+  </div>
+</section>
+
+<main>
+
+  <section id="catalogPage" class="page-section">
+    <div class="section-heading">
+      <h2 id="pageTitle">Герои Dota 2</h2>
+      <p id="pageDescription">Выбирай героя и знакомься с его ролью.</p>
+    </div>
+
+    <div class="toolbar">
+      <div class="search-wrap">
+        <input id="searchInput" type="search"
+          placeholder="Поиск по названию или описанию..."
+          aria-label="Поиск">
+      </div>
+
+      <select id="roleFilter" aria-label="Фильтр по роли">
+        <option value="all">Все роли</option>
+        <option value="Керри">Керри</option>
+        <option value="Мидер">Мидер</option>
+        <option value="Оффлейнер">Оффлейнер</option>
+        <option value="Поддержка">Поддержка</option>
+      </select>
+    </div>
+
+    <div class="cards-grid" id="cardsGrid"></div>
+  </section>
+
+  <section id="basicsPage" class="page-section hidden">
+    <div class="section-heading">
+      <h2>Об игре</h2>
+      <p>Коротко о цели матча, карте, ролях и предметах.</p>
+    </div>
+
+    <div class="info-grid">
+      <article class="info-box">
+        <h3>Что такое Dota 2?</h3>
+        <p>Dota 2 — командная игра, в которой две команды по пять игроков сражаются на одной карте. Главная цель — уничтожить главное строение противника, которое называется Древним.</p>
+      </article>
+      <article class="info-box">
+        <h3>Цель матча</h3>
+        <p>Команда продвигается по линиям, сражается с героями и разрушает вражеские строения, одновременно защищая свою базу.</p>
+      </article>
+      <article class="info-box">
+        <h3>Три линии</h3>
+        <p>На карте есть верхняя, центральная и нижняя линии. По ним движутся союзные и вражеские крипы.</p>
+      </article>
+      <article class="info-box">
+        <h3>Золото и предметы</h3>
+        <p>За золото герой покупает предметы. Они могут усиливать героя, помогать перемещаться и давать полезные способности.</p>
+      </article>
+      <article class="info-box">
+        <h3>Основные роли</h3>
+        <ul>
+          <li><strong>Керри</strong> — становится сильнее по мере получения золота и предметов.</li>
+          <li><strong>Мидер</strong> — обычно играет на центральной линии.</li>
+          <li><strong>Оффлейнер</strong> — создаёт давление и помогает начинать сражения.</li>
+          <li><strong>Поддержка</strong> — помогает союзникам и заботится об обзоре карты.</li>
+        </ul>
+      </article>
+      <article class="info-box">
+        <h3>Мини-карта</h3>
+        <p>Поглядывай на мини-карту: так проще заметить опасность и понять, где нужна помощь союзникам.</p>
+      </article>
+    </div>
+
+    <div class="notice">
+      Dota 2 обновляется, поэтому свойства предметов и способности героев могут меняться.
+    </div>
+  </section>
+
+  <section id="tipsPage" class="page-section hidden">
+    <div class="section-heading">
+      <h2>Уроки для новичков</h2>
+      <p>Положи видеофайлы в папку videos рядом с index.html.</p>
+    </div>
+
+    <div class="lesson-grid">
+      <article class="lesson-card">
+        <h3>Урок 1. Знакомство с игрой</h3>
+        <p>Карта, команды и цель матча.</p>
+        <video controls preload="metadata">
+          <source src="videos/lesson1.mp4" type="video/mp4">
+          Браузер не поддерживает воспроизведение видео.
+        </video>
+      </article>
+
+      <article class="lesson-card">
+        <h3>Урок 2. Предметы и покупки</h3>
+        <p>Как предметы помогают герою и команде.</p>
+        <video controls preload="metadata">
+          <source src="videos/lesson2.mp4" type="video/mp4">
+          Браузер не поддерживает воспроизведение видео.
+        </video>
+      </article>
+    </div>
+
+    <div class="notice">
+      Если у тебя пока нет видео, эти блоки можно оставить пустыми или заменить собственными роликами.
+    </div>
+  </section>
+
+  <section id="dictionaryPage" class="page-section hidden">
+    <div class="section-heading">
+      <h2>Словарь Dota 2</h2>
+      <p>Ищи незнакомые игровые термины.</p>
+    </div>
+
+    <input class="dictionary-search" id="dictionarySearch" type="search"
+      placeholder="Например: керри или мид..."
+      aria-label="Поиск по словарю">
+
+    <div class="dictionary-grid" id="dictionaryGrid">
+      <article class="dictionary-card"><h3>Керри</h3><p>Герой, который обычно становится сильнее по мере получения золота, уровней и предметов.</p></article>
+      <article class="dictionary-card"><h3>Мидер</h3><p>Игрок, который обычно начинает матч на центральной линии.</p></article>
+      <article class="dictionary-card"><h3>Поддержка</h3><p>Герой, который помогает союзникам и участвует в командных действиях.</p></article>
+      <article class="dictionary-card"><h3>Ганг</h3><p>Неожиданное нападение на противника, часто с участием союзников.</p></article>
+      <article class="dictionary-card"><h3>Крип</h3><p>Боец, который автоматически движется по линии и сражается за свою команду.</p></article>
+      <article class="dictionary-card"><h3>Фарм</h3><p>Получение золота и опыта, например за крипов и нейтральных существ.</p></article>
+      <article class="dictionary-card"><h3>Лайн</h3><p>Линия на карте, по которой движутся крипы.</p></article>
+      <article class="dictionary-card"><h3>Башня</h3><p>Защитное строение на линии, которое команды стараются защищать или разрушить.</p></article>
+      <article class="dictionary-card"><h3>Мини-карта</h3><p>Небольшая карта в углу экрана, помогающая следить за игровым полем.</p></article>
+    </div>
+  </section>
+
+  <section id="quizPage" class="page-section hidden">
+    <div class="section-heading">
+      <h2>Викторина по Dota 2</h2>
+      <p>Ответь на 10 вопросов и проверь, что ты запомнил.</p>
+    </div>
+
+    <div class="quiz-box">
+      <div id="quizGame">
+        <div class="quiz-progress" id="quizProgress"></div>
+        <h3 class="quiz-question" id="quizQuestion"></h3>
+        <div class="quiz-answers" id="quizAnswers"></div>
+        <div class="quiz-feedback" id="quizFeedback" aria-live="polite"></div>
+        <div class="quiz-controls">
+          <span class="quiz-score" id="quizScore"></span>
+          <button class="primary-button hidden" id="nextQuestion" type="button">Следующий вопрос →</button>
+        </div>
+      </div>
+
+      <div class="quiz-finish hidden" id="quizFinish">
+        <h3>Викторина завершена!</h3>
+        <p id="finalScore"></p>
+        <button class="primary-button" id="restartQuiz" type="button">Пройти ещё раз</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="gamePage" class="page-section hidden">
+    <div class="section-heading">
+      <h2>Мини-игра «Апгрейдер»</h2>
+      <p>Покупай предметы за игровое золото и пробуй улучшить их.</p>
+    </div>
+
+    <div class="notice">
+      Это учебная мини-игра без реальных денег. При неудаче предмет теряется.
+      Шанс улучшения и стоимость указаны перед попыткой.
+    </div>
+
+    <div class="game-panel">
+      <div class="game-top">
+        <div>
+          <strong>Твоё золото:</strong>
+          <span class="gold-count" id="gameGold">100</span>
+        </div>
+        <div id="inventoryValue">Стоимость инвентаря: 0</div>
+      </div>
+
+      <h3>Магазин</h3>
+      <div class="shop-grid" id="shopGrid"></div>
+
+      <div class="upgrade-area">
+        <h3>Инвентарь</h3>
+        <p class="subtitle">Выбери предмет, который хочешь улучшить.</p>
+        <div class="inventory-list" id="inventoryList"></div>
+
+        <div class="upgrade-chance" id="upgradeInfo">
+          Купи предмет, чтобы начать.
+        </div>
+<div class="wheel-wrap">
+  <div class="wheel-pointer"></div>
+  <div class="upgrade-wheel" id="upgradeWheel">
+    <div class="wheel-center">DOTA</div>
+  </div>
+</div>
+<div class="wheel-legend">
+  🟢 Успех · 🔴 Неудача
+</div>
+        <div class="roll-box" id="rollResult"></div>
+        <button class="game-button" id="upgradeButton" type="button" disabled>
+          Улучшить предмет
+        </button>
+        <div class="game-message" id="gameMessage" aria-live="polite"></div>
+        <button class="reset-game" id="resetGame" type="button">Начать заново: 100 золота</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="detail-panel" id="detailPanel" role="dialog" aria-modal="true">
+  <div class="detail-box">
+    <div class="detail-header">
+      <div>
+        <div class="eyebrow" id="detailType"></div>
+        <h2 id="detailTitle"></h2>
+      </div>
+      <button class="close-button" id="closeDetail" aria-label="Закрыть">×</button>
+    </div>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  Учебный проект по информатике · Неофициальный фан-сайт о Dota 2
+</footer>
+
+<script>
+const heroes = [
+  {
+    name: "Axe",
+    russian: "Акс",
+    image: "images/heroes/axe.png",
+    icon: "🪓",
+    subtitle: "Сила · Оффлейнер",
+    roles: ["Оффлейнер"],
+    description: "Воин, который провоцирует противников на атаку и хорошо чувствует себя в центре сражения.",
+    detail: "Axe — герой ближнего боя, которого часто выбирают для начала сражений. Он старается отвлечь противников от уязвимых союзников."
+  },
+  {
+    name: "Crystal Maiden",
+    russian: "Кристал Мейден",
+    image: "images/heroes/crystal_maiden.png",
+    icon: "❄️",
+    subtitle: "Интеллект · Поддержка",
+    roles: ["Поддержка"],
+    description: "Ледяная волшебница, которая помогает команде способностями и контролем противников.",
+    detail: "Crystal Maiden помогает союзникам замедлять и контролировать врагов. Ей важно держаться рядом с командой."
+  },
+  {
+    name: "Juggernaut",
+    russian: "Джаггернаут",
+    image: "images/heroes/Jagernaut.png",
+    icon: "⚔️",
+    subtitle: "Ловкость · Керри",
+    roles: ["Керри"],
+    description: "Боец ближнего боя, который сочетает физический урон и способности для выживания.",
+    detail: "Juggernaut часто подходит новичкам. Старайся получать золото на линии и подбирать предметы под ситуацию."
+  },
+  {
+    name: "Lina",
+    russian: "Лина",
+    image: "images/heroes/lina.png",
+    icon: "🔥",
+    subtitle: "Интеллект · Мидер",
+    roles: ["Мидер", "Поддержка"],
+    description: "Маг дальнего боя, способный наносить сильный урон заклинаниями.",
+    detail: "Lina может играть на центральной линии или в роли поддержки. Следи за дистанцией."
+  },
+  {
+    name: "Lich",
+    russian: "Лич",
+    image: "images/heroes/lich.png",
+    icon: "🧊",
+    subtitle: "Интеллект · Поддержка",
+    roles: ["Поддержка"],
+    description: "Маг поддержки, который помогает команде замедлять врагов и наносить магический урон.",
+    detail: "Lich помогает союзникам на линии и в командных сражениях. Применяй способности вместе с командой."
+  },
+  {
+    name: "Sven",
+    russian: "Свен",
+    image: "images/heroes/sven.png",
+    icon: "🔨",
+    subtitle: "Сила · Керри",
+    roles: ["Керри", "Оффлейнер"],
+    description: "Мощный боец ближнего боя, который может наносить большой урон.",
+    detail: "Sven нужны уровни и предметы, чтобы раскрыть свой потенциал. Выбирай подходящий момент для атаки."
+  },
+  {
+    name: "Drow Ranger",
+    russian: "Дроу Рейнджер",
+    image: "",
+    icon: "🏹",
+    subtitle: "Ловкость · Керри",
+    roles: ["Керри"],
+    description: "Стрелок дальнего боя, который старается держаться позади союзников.",
+    detail: "Drow Ranger атакует с расстояния и ценит безопасную позицию. Её задача — наносить урон и избегать опасности."
+  },
+  {
+    name: "Pudge",
+    russian: "Пудж",
+    image: "",
+    icon: "🪝",
+    subtitle: "Сила · Оффлейнер",
+    roles: ["Оффлейнер", "Поддержка"],
+    description: "Герой ближнего боя, известный способностью притягивать противников.",
+    detail: "Pudge может создавать неожиданные моменты для команды. Новичку полезно тренироваться попадать по противникам."
+  },
+  {
+    name: "Dragon Knight",
+    russian: "Драгон Найт",
+    image: "",
+    icon: "🐉",
+    subtitle: "Сила · Оффлейнер",
+    roles: ["Оффлейнер", "Мидер"],
+    description: "Стойкий боец, который может сражаться на передовой.",
+    detail: "Dragon Knight — выносливый герой. Он может помогать команде в боях и давить на строения."
+  },
+  {
+    name: "Wraith King",
+    russian: "Рэйф Кинг",
+    image: "",
+    icon: "👑",
+    subtitle: "Сила · Керри",
+    roles: ["Керри", "Оффлейнер"],
+    description: "Воин ближнего боя, который становится опаснее по мере развития.",
+    detail: "Wraith King собирает золото и предметы, чтобы усилить свои атаки. Следи за расположением союзников."
+  },
+  {
+    name: "Shadow Shaman",
+    russian: "Шэдоу Шаман",
+    image: "",
+    icon: "🐍",
+    subtitle: "Интеллект · Поддержка",
+    roles: ["Поддержка"],
+    description: "Герой поддержки, который умеет задерживать противников способностями.",
+    detail: "Shadow Shaman помогает команде контролировать врагов. Старайся использовать способности вместе с союзниками."
+  },
+  {
+    name: "Lion",
+    russian: "Лион",
+    image: "",
+    icon: "🦁",
+    subtitle: "Интеллект · Поддержка",
+    roles: ["Поддержка"],
+    description: "Маг поддержки, который помогает контролировать противников.",
+    detail: "Lion может обездвиживать противников и помогать команде начинать атаку. Следи за своей позицией."
+  },
+  {
+    name: "Sniper",
+    russian: "Снайпер",
+    image: "",
+    icon: "🎯",
+    subtitle: "Ловкость · Керри",
+    roles: ["Керри", "Мидер"],
+    description: "Стрелок дальнего боя, которому важно атаковать из безопасного места.",
+    detail: "Sniper старается держать дистанцию и наносить урон из-за спин союзников."
+  },
+  {
+    name: "Phantom Assassin",
+    russian: "Фантомка",
+    image: "",
+    icon: "🗡️",
+    subtitle: "Ловкость · Керри",
+    roles: ["Керри"],
+    description: "Боец ближнего боя, который охотится на отдельных противников.",
+    detail: "Phantom Assassin становится опаснее с уровнями и предметами. Выбирай момент для атаки и не начинай бой один."
+  },
+  {
+    name: "Shadow Fiend",
+    russian: "Шэдоу Финд",
+    image: "",
+    icon: "👹",
+    subtitle: "Ловкость · Мидер",
+    roles: ["Мидер"],
+    description: "Герой, который наносит урон и старается усиливать свои атаки.",
+    detail: "Shadow Fiend часто играет на центральной линии. Ему важно получать золото и опыт, а в сражениях следить за позицией."
+  },
+  {
+    name: "Witch Doctor",
+    russian: "Вич Доктор",
+    image: "",
+    icon: "🧙",
+    subtitle: "Интеллект · Поддержка",
+    roles: ["Поддержка"],
+    description: "Герой поддержки, который помогает команде заклинаниями.",
+    detail: "Witch Doctor может помогать союзникам в боях и мешать противникам. Старайся применять способности рядом с командой."
+  },
+  {
+    name: "Tidehunter",
+    russian: "Тайдхантер",
+    image: "",
+    icon: "🌊",
+    subtitle: "Сила · Оффлейнер",
+    roles: ["Оффлейнер"],
+    description: "Выносливый герой, который помогает команде начинать сражения.",
+    detail: "Tidehunter часто находится на передовой. Не начинай сражение, если команда далеко."
+  },
+  {
+    name: "Viper",
+    russian: "Вайпер",
+    image: "",
+    icon: "🐍",
+    subtitle: "Ловкость · Мидер",
+    roles: ["Мидер"],
+    description: "Герой дальнего боя, который давит на противников своими атаками.",
+    detail: "Viper может мешать противнику на линии и участвовать в боях на расстоянии. Следи за мини-картой."
+  },
+  {
+    name: "Mirana",
+    russian: "Мирана",
+    image: "",
+    icon: "🌙",
+    subtitle: "Ловкость · Поддержка",
+    roles: ["Поддержка", "Керри"],
+    description: "Героиня дальнего боя, которая помогает команде атаковать издалека.",
+    detail: "Mirana может играть на разных ролях. Выбирай безопасную позицию и помогай союзникам в подходящий момент."
+  },
+  {
+    name: "Ogre Magi",
+    russian: "Огр Маг",
+    image: "",
+    icon: "🔵",
+    subtitle: "Сила · Поддержка",
+    roles: ["Поддержка"],
+    description: "Выносливый герой поддержки, который использует магические способности.",
+    detail: "Ogre Magi помогает союзникам заклинаниями и может выдерживать часть урона. В боях держись рядом с командой."
+  }
+];
+
+const items = [
+  {name:"Blink Dagger", russian:"Кинжал прыжка", image:"", icon:"✦", subtitle:"Мобильность", description:"Позволяет быстро переместиться на небольшое расстояние.", detail:"Помогает сблизиться с противником, уйти от опасности или занять позицию.", guide:"Перед перемещением проверь, рядом ли союзники."},
+  {name:"Black King Bar", russian:"Чёрный король", image:"", icon:"🛡️", subtitle:"Защита", description:"Помогает против некоторых магических эффектов.", detail:"Активная способность помогает пережить часть вражеских заклинаний.", guide:"Подумай, много ли у противников опасных заклинаний и контроля."},
+  {name:"Boots of Speed", russian:"Сапоги скорости", image:"", icon:"👢", subtitle:"Передвижение", description:"Увеличивают скорость передвижения героя.", detail:"Сапоги помогают быстрее перемещаться по карте.", guide:"Это простой предмет, который часто помогает герою в начале игры."},
+  {name:"Magic Wand", russian:"Волшебная палочка", image:"", icon:"🪄", subtitle:"Восстановление", description:"Восстанавливает часть здоровья и маны после накопления зарядов.", detail:"Получает заряды, когда неподалёку используются способности.", guide:"Проверяй количество зарядов и используй предмет в нужный момент."},
+  {name:"Blade Mail", russian:"Клинок с отражением", image:"", icon:"🗡️", subtitle:"Защита и ответный урон", description:"Помогает отвечать на входящий урон.", detail:"Может быть полезен героям, которых часто атакуют.", guide:"Подумай, будут ли противники направлять атаки именно на тебя."},
+  {name:"Town Portal Scroll", russian:"Свиток телепортации", image:"", icon:"📜", subtitle:"Перемещение", description:"Позволяет телепортироваться к дружественному строению.", detail:"Помогает быстро перемещаться по карте и поддерживать союзников.", guide:"Следи за картой: телепортация может помочь защитить союзника или строение."},
+  {name:"Aghanim's Scepter", russian:"Скипетр Аганима", image:"", icon:"💎", subtitle:"Усиление героя", description:"Усиливает героя или его способности.", detail:"Эффект предмета отличается у разных героев.", guide:"Перед покупкой проверь, какой эффект он даёт выбранному герою."},
+  {name:"Observer Ward", russian:"Наблюдатель", image:"", icon:"👁️", subtitle:"Обзор карты", description:"Помогает команде видеть часть карты.", detail:"Информация о перемещениях противников помогает планировать действия.", guide:"Старайся размещать обзор так, чтобы он помогал команде следить за важными участками."},
+  {name:"Power Treads", russian:"Силовые сапоги", image:"", icon:"🥾", subtitle:"Передвижение", description:"Улучшенные сапоги, дающие скорость передвижения и характеристику.", detail:"Power Treads помогают передвигаться по карте и усиливают характеристику героя.", guide:"Выбирай характеристики с учётом ситуации."},
+  {name:"Phase Boots", russian:"Фейзовые сапоги", image:"", icon:"👟", subtitle:"Передвижение", description:"Сапоги для быстрого перемещения по карте и во время боя.", detail:"Могут помочь герою быстрее перемещаться и сближаться с противником.", guide:"Подумай, важна ли выбранному герою мобильность."},
+  {name:"Force Staff", russian:"Форс-стафф", image:"", icon:"🪄", subtitle:"Перемещение", description:"Помогает переместить героя на небольшое расстояние.", detail:"Можно помочь союзнику выбраться из опасности или изменить позицию.", guide:"Перед применением проверь, куда именно переместится герой."},
+  {name:"Glimmer Cape", russian:"Мерцающий плащ", image:"", icon:"✨", subtitle:"Защита союзника", description:"Помогает временно скрыть и защитить союзника.", detail:"Может помочь товарищу пережить опасный момент.", guide:"Следи за союзниками и помогай тому, кто оказался под угрозой."},
+  {name:"Shadow Blade", russian:"Теневая глефа", image:"", icon:"🌑", subtitle:"Скрытность", description:"Помогает герою временно стать невидимым.", detail:"Может помочь неожиданно начать бой или отступить.", guide:"Помни, что у противников могут быть средства обнаружения."},
+  {name:"Desolator", russian:"Дезолятор", image:"", icon:"🔴", subtitle:"Урон", description:"Предмет для усиления атак героя.", detail:"Обычно его выбирают героям, которые часто атакуют противников.", guide:"Оцени, поможет ли дополнительный урон твоему герою и команде."},
+  {name:"Pipe of Insight", russian:"Труба прозрения", image:"", icon:"🛡️", subtitle:"Защита команды", description:"Предмет для дополнительной защиты героя и союзников.", detail:"Может помочь команде пережить магический урон.", guide:"Подумай, часто ли команда получает магический урон."},
+  {name:"Mekansm", russian:"Меканизм", image:"", icon:"💚", subtitle:"Помощь команде", description:"Предмет поддержки для командных сражений.", detail:"Предназначен для помощи команде.", guide:"Используй его так, чтобы помочь союзникам в нужный момент."},
+  {name:"Aether Lens", russian:"Эфирная линза", image:"", icon:"🔮", subtitle:"Дальность способностей", description:"Помогает применять способности с большего расстояния.", detail:"Полезна героям, которым важно держаться подальше от противников.", guide:"Может помочь сохранить безопасную позицию."},
+  {name:"Eul's Scepter of Divinity", russian:"Скипетр Эула", image:"", icon:"🌀", subtitle:"Мобильность и контроль", description:"Предмет с активной способностью для разных игровых ситуаций.", detail:"Может помочь изменить положение героя или противника.", guide:"Используй активную способность обдуманно и учитывай действия команды."},
+  {name:"Daedalus", russian:"Дедал", image:"", icon:"🎯", subtitle:"Урон", description:"Предмет для усиления атак героя.", detail:"Обычно его выбирают героям, которые наносят урон обычными атаками.", guide:"Перед покупкой подумай, хватает ли команде физического урона."},
+  {name:"Linken's Sphere", russian:"Сфера Линкена", image:"", icon:"🔵", subtitle:"Защита", description:"Помогает защищаться от некоторых направленных способностей.", detail:"Может пригодиться против опасных способностей, направленных на одного героя.", guide:"Выбирай предмет с учётом героев противника."}
+];
+
+const quizQuestions = [
+  {question:"Сколько игроков обычно входит в одну команду?", answers:["Три","Пять","Семь","Десять"], correct:1},
+  {question:"Как называется главное строение, которое нужно уничтожить?", answers:["Фонтан","Башня","Древний","Лагерь крипов"], correct:2},
+  {question:"Как называется центральная линия?", answers:["Мид","Бот","Топ","Лес"], correct:0},
+  {question:"Какая роль обычно помогает союзникам?", answers:["Керри","Поддержка","Крип","Босс"], correct:1},
+  {question:"Для чего нужен Blink Dagger?", answers:["Для быстрого перемещения","Для лечения","Для обзора","Для получения золота"], correct:0},
+  {question:"Что помогает команде видеть часть карты?", answers:["Observer Ward","Boots of Speed","Magic Wand","Blade Mail"], correct:0},
+  {question:"Что герой обычно получает за крипов?", answers:["Золото и опыт","Только здоровье","Новые линии","Дополнительную команду"], correct:0},
+  {question:"Какой предмет помогает быстрее передвигаться?", answers:["Boots of Speed","Observer Ward","Aghanim's Scepter","Magic Wand"], correct:0},
+  {question:"Что помогает заметить опасность на карте?", answers:["Мини-карта","Стоять на базе","Игнорировать союзников","Не покупать предметы"], correct:0},
+  {question:"Какая главная цель матча?", answers:["Собрать все предметы","Уничтожить Древнего противника","Победить всех крипов","Занять мид"], correct:1}
+];
+
+const upgradePaths = {
+  branch: [
+    {name:"Железная ветка", icon:"🌿", value:30},
+    {name:"Кружево", icon:"💠", value:75},
+    {name:"Корона", icon:"👑", value:180},
+    {name:"Скипетр", icon:"💎", value:420}
+  ],
+  slippers: [
+    {name:"Сапоги скорости", icon:"👢", value:35},
+    {name:"Силовые сапоги", icon:"🥾", value:90},
+    {name:"Фейзовые сапоги", icon:"👟", value:210},
+    {name:"Редкие сапоги героя", icon:"✨", value:500}
+  ],
+  mantle: [
+    {name:"Мантия мудреца", icon:"🧥", value:40},
+    {name:"Эфирная линза", icon:"🔮", value:100},
+    {name:"Магический скипетр", icon:"🪄", value:240},
+    {name:"Арканный артефакт", icon:"🌟", value:560}
+  ]
+};
+
+const shopItems = [
+  {chain:"branch", name:"Железная ветка", icon:"🌿", price:25},
+  {chain:"slippers", name:"Сапоги скорости", icon:"👢", price:30},
+  {chain:"mantle", name:"Мантия мудреца", icon:"🧥", price:35}
+];
+
+const cardsGrid = document.getElementById("cardsGrid");
+const searchInput = document.getElementById("searchInput");
+const roleFilter = document.getElementById("roleFilter");
+const pageTitle = document.getElementById("pageTitle");
+const pageDescription = document.getElementById("pageDescription");
+
+const pages = {
+  catalog: document.getElementById("catalogPage"),
+  basics: document.getElementById("basicsPage"),
+  tips: document.getElementById("tipsPage"),
+  dictionary: document.getElementById("dictionaryPage"),
+  quiz: document.getElementById("quizPage"),
+  game: document.getElementById("gamePage")
+};
+
+let currentPage = "heroes";
+let quizIndex = 0;
+let quizPoints = 0;
+let answerChosen = false;
+
+let gameGold = 100;
+let inventory = [];
+let selectedItemId = null;
+let nextInventoryId = 1;
+let wheelRotation = 0;
+let upgradeBusy = false;
+
+function renderCards() {
+  const text = searchInput.value.trim().toLowerCase();
+  const data = currentPage === "heroes" ? heroes : items;
+
+  const filtered = data.filter(function(entry) {
+    const searchable = (entry.name + " " + entry.russian + " " +
+      entry.subtitle + " " + entry.description).toLowerCase();
+
+    const roleMatches = currentPage === "items" ||
+      roleFilter.value === "all" ||
+      entry.roles.includes(roleFilter.value);
+
+    return searchable.includes(text) && roleMatches;
+  });
+
+  cardsGrid.innerHTML = "";
+
+  if (filtered.length === 0) {
+    cardsGrid.innerHTML =
+      '<div class="empty-message">Ничего не найдено. Попробуй изменить запрос или фильтр.</div>';
+    return;
+  }
+
+  filtered.forEach(function(entry) {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const visual = entry.image
+      ? `<img class="icon" src="${entry.image}" alt="${entry.russian}">`
+      : `<div class="icon" aria-hidden="true">${entry.icon}</div>`;
+
+    const tags = currentPage === "heroes"
+      ? entry.roles.map(function(role) {
+          return `<span class="tag">${role}</span>`;
+        }).join("")
+      : `<span class="tag">${entry.subtitle}</span>`;
+
+    card.innerHTML = `
+      <div class="card-top">
+        ${visual}
+        <div>
+          <h3>${entry.name}</h3>
+          <div class="subtitle">${entry.russian} · ${entry.subtitle}</div>
+        </div>
+      </div>
+      <p>${entry.description}</p>
+      <div class="tags">${tags}</div>
+      <button class="card-button" type="button">Подробнее →</button>
+    `;
+
+    const image = card.querySelector("img");
+    if (image) {
+      image.addEventListener("error", function() {
+        const fallback = document.createElement("div");
+        fallback.className = "icon";
+        fallback.textContent = entry.icon;
+        this.replaceWith(fallback);
+      });
+    }
+
+    card.querySelector(".card-button").addEventListener("click", function() {
+      openDetail(entry, currentPage === "heroes" ? "Герой Dota 2" : "Предмет Dota 2");
+    });
+
+    cardsGrid.appendChild(card);
+  });
+}
+
+function openDetail(entry, type) {
+  document.getElementById("detailType").textContent = type;
+  document.getElementById("detailTitle").textContent =
+    entry.name + " — " + entry.russian;
+
+  document.getElementById("detailContent").innerHTML = `
+    <p><strong>${entry.subtitle}</strong></p>
+    <p>${entry.detail}</p>
+    <p><strong>Совет:</strong> ${entry.guide || "Изучай предмет или героя в игре и подбирай действия под ситуацию."}</p>
+    <p><strong>Кратко:</strong> ${entry.description}</p>
+  `;
+
+  document.getElementById("detailPanel").classList.add("open");
+}
+
+function closeDetail() {
+  document.getElementById("detailPanel").classList.remove("open");
+}
+
+function showPage(page) {
+  currentPage = page;
+
+  Object.values(pages).forEach(function(section) {
+    section.classList.add("hidden");
+  });
+
+  if (page === "basics" || page === "tips" || page === "dictionary" ||
+      page === "quiz" || page === "game") {
+    pages[page].classList.remove("hidden");
+    if (page === "game") renderGame();
+    return;
+  }
+
+  pages.catalog.classList.remove("hidden");
+  searchInput.value = "";
+  roleFilter.value = "all";
+
+  if (page === "heroes") {
+    pageTitle.textContent = "Герои Dota 2";
+    pageDescription.textContent = "Выбирай героя, читай описание и советы.";
+    roleFilter.classList.remove("hidden");
+  } else {
+    pageTitle.textContent = "Предметы Dota 2";
+    pageDescription.textContent = "Знакомься с предметами и их применением.";
+    roleFilter.classList.add("hidden");
+  }
+
+  renderCards();
+}
+
+function renderQuestion() {
+  const question = quizQuestions[quizIndex];
+  answerChosen = false;
+
+  document.getElementById("quizProgress").textContent =
+    "Вопрос " + (quizIndex + 1) + " из " + quizQuestions.length;
+  document.getElementById("quizQuestion").textContent = question.question;
+  document.getElementById("quizFeedback").textContent = "";
+  document.getElementById("quizFeedback").className = "quiz-feedback";
+  document.getElementById("quizScore").textContent =
+    "Правильных ответов: " + quizPoints;
+
+  const box = document.getElementById("quizAnswers");
+  box.innerHTML = "";
+
+  question.answers.forEach(function(answer, index) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "quiz-answer";
+    button.textContent = answer;
+    button.addEventListener("click", function() { chooseAnswer(index); });
+    box.appendChild(button);
+  });
+
+  document.getElementById("nextQuestion").classList.add("hidden");
+}
+
+function chooseAnswer(index) {
+  if (answerChosen) return;
+  answerChosen = true;
+
+  const question = quizQuestions[quizIndex];
+  const buttons = document.querySelectorAll(".quiz-answer");
+  const feedback = document.getElementById("quizFeedback");
+
+  buttons.forEach(function(button, buttonIndex) {
+    button.disabled = true;
+    if (buttonIndex === question.correct) button.classList.add("correct");
+  });
+
+  if (index === question.correct) {
+    quizPoints++;
+    feedback.textContent = "Верно! Отличный ответ.";
+    feedback.classList.add("good");
+  } else {
+    buttons[index].classList.add("incorrect");
+    feedback.textContent = "Неверно. Правильный ответ отмечен зелёным.";
+    feedback.classList.add("bad");
+  }
+
+  document.getElementById("quizScore").textContent =
+    "Правильных ответов: " + quizPoints;
+
+  const next = document.getElementById("nextQuestion");
+  next.textContent = quizIndex === quizQuestions.length - 1
+    ? "Показать результат"
+    : "Следующий вопрос →";
+  next.classList.remove("hidden");
+}
+
+function nextQuestion() {
+  if (quizIndex < quizQuestions.length - 1) {
+    quizIndex++;
+    renderQuestion();
+  } else {
+    document.getElementById("quizGame").classList.add("hidden");
+    document.getElementById("quizFinish").classList.remove("hidden");
+    document.getElementById("finalScore").textContent =
+      "Твой результат: " + quizPoints + " из " + quizQuestions.length + ".";
+  }
+}
+
+function restartQuiz() {
+  quizIndex = 0;
+  quizPoints = 0;
+  document.getElementById("quizGame").classList.remove("hidden");
+  document.getElementById("quizFinish").classList.add("hidden");
+  renderQuestion();
+}
+
+function renderGame() {
+  document.getElementById("gameGold").textContent = gameGold;
+  document.getElementById("inventoryValue").textContent =
+    "Стоимость инвентаря: " +
+    inventory.reduce(function(total, item) {
+      return total + upgradePaths[item.chain][item.tier].value;
+    }, 0);
+
+  const shop = document.getElementById("shopGrid");
+  shop.innerHTML = "";
+
+  shopItems.forEach(function(item) {
+    const card = document.createElement("div");
+    card.className = "shop-card";
+    card.innerHTML = `
+      <div class="shop-icon">${item.icon}</div>
+      <h3>${item.name}</h3>
+      <p>Цена: ${item.price} золота</p>
+      <button class="game-button" type="button">Купить</button>
+    `;
+
+    const button = card.querySelector("button");
+    button.disabled = gameGold < item.price;
+    button.addEventListener("click", function() {
+      if (upgradeBusy || gameGold < item.price) return;
+
+      gameGold -= item.price;
+      inventory.push({
+        id: nextInventoryId++,
+        chain: item.chain,
+        tier: 0
+      });
+      document.getElementById("gameMessage").textContent =
+        "Предмет куплен. Выбери его в инвентаре.";
+      document.getElementById("gameMessage").className = "game-message good";
+      document.getElementById("rollResult").textContent = "";
+      renderGame();
+    });
+
+    shop.appendChild(card);
+  });
+
+  const list = document.getElementById("inventoryList");
+  list.innerHTML = "";
+
+  if (inventory.length === 0) {
+    list.innerHTML = '<p class="subtitle">Инвентарь пуст. Купи предмет в магазине.</p>';
+  }
+
+  inventory.forEach(function(item) {
+    const current = upgradePaths[item.chain][item.tier];
+
+  const row = document.createElement("div");
+  row.className = "inventory-row";
+
+  const selectButton = document.createElement("button");
+  selectButton.type = "button";
+  selectButton.className = "inventory-button" +
+    (item.id === selectedItemId ? " selected" : "");
+  selectButton.textContent =
+    current.icon + " " + current.name + " — стоимость " + current.value;
+
+  selectButton.addEventListener("click", function() {
+    if (upgradeBusy) return;
+
+    selectedItemId = item.id;
+    document.getElementById("gameMessage").textContent = "";
+    document.getElementById("rollResult").textContent = "";
+    renderGame();
+  });
+
+  const sellButton = document.createElement("button");
+  sellButton.type = "button";
+  sellButton.className = "sell-button";
+
+  const sellPrice = Math.floor(current.value * 0.7);
+  sellButton.textContent = "Продать +" + sellPrice;
+
+  sellButton.addEventListener("click", function() {
+    if (upgradeBusy) return;
+
+    const index = inventory.findIndex(function(entry) {
+      return entry.id === item.id;
+    });
+
+    if (index === -1) return;
+
+    const soldItem = inventory[index];
+    const soldValue = upgradePaths[soldItem.chain][soldItem.tier].value;
+    const receivedGold = Math.floor(soldValue * 0.7);
+
+    gameGold += receivedGold;
+    inventory.splice(index, 1);
+
+    if (selectedItemId === item.id) {
+      selectedItemId = null;
+    }
+
+    document.getElementById("gameMessage").textContent =
+      "Предмет продан за " + receivedGold + " игрового золота.";
+    document.getElementById("gameMessage").className = "game-message good";
+
+    renderGame();
+  });
+
+  row.appendChild(selectButton);
+  row.appendChild(sellButton);
+  list.appendChild(row);
+  });
+
+  updateUpgradeInfo();
+}
+
+function updateUpgradeInfo() {
+  const item = inventory.find(function(entry) {
+    return entry.id === selectedItemId;
+  });
+
+  const info = document.getElementById("upgradeInfo");
+  const button = document.getElementById("upgradeButton");
+
+  if (!item) {
+    info.textContent = inventory.length
+      ? "Выбери предмет в инвентаре."
+      : "Купи предмет, чтобы начать.";
+    button.disabled = true;
+    return;
+  }
+
+  const path = upgradePaths[item.chain];
+  const current = path[item.tier];
+
+  if (item.tier >= path.length - 1) {
+    info.textContent = current.name + " — максимальный уровень улучшения.";
+    button.disabled = true;
+    return;
+  }
+
+  const cost = 10 + item.tier * 15;
+  const chance = Math.max(25, 70 - item.tier * 15);
+  const next = path[item.tier + 1];
+
+  info.textContent =
+    "Шанс: " + chance + "% · Цена попытки: " + cost +
+    " золота · При успехе: " + next.name +
+    " (стоимость " + next.value + ")";
+  button.disabled = gameGold < cost;
+}
+
+function upgradeSelectedItem() {
+  if (upgradeBusy) return;
+
+  const itemIndex = inventory.findIndex(function(entry) {
+    return entry.id === selectedItemId;
+  });
+
+  if (itemIndex === -1) return;
+
+  const item = inventory[itemIndex];
+  const path = upgradePaths[item.chain];
+
+  if (item.tier >= path.length - 1) return;
+
+  const cost = 10 + item.tier * 15;
+  const chance = Math.max(25, 70 - item.tier * 15);
+
+  if (gameGold < cost) {
+    document.getElementById("gameMessage").textContent = "Не хватает золота.";
+    document.getElementById("gameMessage").className = "game-message bad";
+    return;
+  }
+
+  gameGold -= cost;
+  upgradeBusy = true;
+
+  const roll = Math.floor(Math.random() * 100) + 1;
+  const success = roll <= chance;
+
+  const wheel = document.getElementById("upgradeWheel");
+  const successAngle = chance * 3.6;
+
+  wheel.style.background =
+    "conic-gradient(#45bd71 0deg " + successAngle +
+    "deg, #a83b34 " + successAngle + "deg 360deg)";
+
+  const targetAngle = (roll - 0.5) * 3.6;
+  const targetRotation = (360 - targetAngle) % 360;
+  const currentRotation = ((wheelRotation % 360) + 360) % 360;
+  const extraRotation =
+    5 * 360 + ((targetRotation - currentRotation + 360) % 360);
+
+  wheelRotation += extraRotation;
+
+  document.getElementById("upgradeButton").disabled = true;
+  document.getElementById("gameMessage").textContent = "Колесо крутится...";
+  document.getElementById("gameMessage").className = "game-message";
+  document.getElementById("rollResult").textContent = "";
+
+  requestAnimationFrame(function() {
+    wheel.style.transform = "rotate(" + wheelRotation + "deg)";
+  });
+
+  setTimeout(function() {
+    const message = document.getElementById("gameMessage");
+
+    document.getElementById("rollResult").textContent =
+      "Выпало число " + roll + " из 100. Шанс успеха: " + chance + "%.";
+
+    if (success) {
+      item.tier++;
+      const upgraded = path[item.tier];
+
+      message.textContent =
+        "Успех! Получен предмет: " + upgraded.name +
+        ". Игровая стоимость: " + upgraded.value + " золота.";
+      message.className = "game-message good";
+    } else {
+      inventory.splice(itemIndex, 1);
+      selectedItemId = null;
+
+      message.textContent =
+        "Неудача! Предмет потерян, попытка стоила " + cost + " золота.";
+      message.className = "game-message bad";
+    }
+
+    upgradeBusy = false;
+    renderGame();
+  }, 4100);
+}
+
+function resetGame() {
+  gameGold = 100;
+  inventory = [];
+  selectedItemId = null;
+  nextInventoryId = 1;
+  document.getElementById("gameMessage").textContent = "Игра началась заново.";
+  document.getElementById("gameMessage").className = "game-message";
+  document.getElementById("rollResult").textContent = "";
+  renderGame();
+}
+
+document.querySelectorAll(".nav button").forEach(function(button) {
+  button.addEventListener("click", function() {
+    document.querySelectorAll(".nav button").forEach(function(navButton) {
+      navButton.classList.remove("active");
+    });
+    button.classList.add("active");
+    showPage(button.dataset.page);
+  });
+});
+
+document.getElementById("closeDetail").addEventListener("click", closeDetail);
+document.getElementById("detailPanel").addEventListener("click", function(event) {
+  if (event.target.id === "detailPanel") closeDetail();
+});
+document.addEventListener("keydown", function(event) {
+  if (event.key === "Escape") closeDetail();
+});
+
+document.getElementById("nextQuestion").addEventListener("click", nextQuestion);
+document.getElementById("restartQuiz").addEventListener("click", restartQuiz);
+document.getElementById("upgradeButton").addEventListener("click", upgradeSelectedItem);
+document.getElementById("resetGame").addEventListener("click", resetGame);
+
+searchInput.addEventListener("input", renderCards);
+roleFilter.addEventListener("change", renderCards);
+
+document.getElementById("dictionarySearch").addEventListener("input", function() {
+  const text = this.value.trim().toLowerCase();
+  document.querySelectorAll(".dictionary-card").forEach(function(card) {
+    card.classList.toggle("hidden", !card.textContent.toLowerCase().includes(text));
+  });
+});
+
+renderCards();
+renderQuestion();
+renderGame();
+</script>
+</body>
+</html>
